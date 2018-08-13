@@ -5,6 +5,8 @@ package com.iheshulin.weather.util;
  */
 import org.json.JSONObject;
 import org.nutz.dao.util.cri.Static;
+import org.nutz.http.Http;
+import org.nutz.http.Response;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -16,7 +18,7 @@ import java.security.SignatureException;
 import java.util.Date;
 import java.net.URLEncoder;
 
-class XinzhiUtil {
+public class XinzhiUtil {
 
 
 
@@ -66,7 +68,6 @@ class XinzhiUtil {
             response.append('\r');
         }
         rd.close();
-        //System.out.println(new JSONObject(response.toString()).toString(4));
         return response.toString();
     }
     /**
@@ -95,16 +96,7 @@ class XinzhiUtil {
     }
 
 
-    /**
-     * Generate  diary weather
-     * 得到n天的天气预报
-     * @param location
-     * @param language
-     * @param unit
-     * @param start
-     * @param days
-     * @return
-     */
+    //得到n天的天气预报
     public static String generateGetDiaryWeather(
             String location,
             String language,
@@ -113,11 +105,7 @@ class XinzhiUtil {
             String days
     ) throws Exception {
         String url =  TIANQI_DAILY_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + location + "&language=" + language + "&unit=" + unit + "&start=" + start + "&days=" + days;
-        String daily = "";
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        daily = printResponse(conn);
-//      System.out.println("URL:" + url);
-//      System.out.println("URL:" + token);
+        String daily = Http.get(url).getContent();
         return daily;
     }
 
@@ -130,10 +118,7 @@ class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_NOW_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + location + "&language=" + language + "&unit=" + unit;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String now = printResponse(conn);
-//      System.out.println("URL:" + url);
-//      System.out.println("URL:" + token);
+        String now = Http.get(url).getContent();
         return now;
     }
 
@@ -145,10 +130,7 @@ class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_GRIDNOW_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String gridnow = printResponse(conn);
-//       System.out.println("URL:" + url);
-//      System.out.println("URL:" + token);
+        String gridnow = Http.get(url).getContent();
         return gridnow;
     }
 
@@ -161,14 +143,11 @@ class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_MINUTELY_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String gridMinutely = printResponse(conn);
-//       System.out.println("URL:" + url);
-//      System.out.println("URL:" + token);
+        String gridMinutely = Http.get(url).getContent();
         return gridMinutely;
     }
 
-    //24小事逐小时预报
+    //24小时逐小时天气预报
     public static String generateGetHourlyWeather(
             String location,
             String language,
@@ -177,10 +156,7 @@ class XinzhiUtil {
             String hours
     ) throws Exception {
         String url =  TIANQI_HOURLY_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit + "&start=" + start + "&hours=" + hours;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String hourly = printResponse(conn);
-//        System.out.println("URL:" + url);
-//        System.out.println("URL:" + token);
+        String hourly = Http.get(url).getContent();
         return hourly;
     }
 
@@ -197,11 +173,7 @@ class XinzhiUtil {
         {
             url =  TIANQI_ALARM_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit ;
         }
-
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String alarm = printResponse(conn);
-//        System.out.println("URL:" + url);
-//        System.out.println("URL:" + token);
+        String alarm = Http.get(url).getContent();
         return alarm;
     }
 
@@ -212,10 +184,7 @@ class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_NOW_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit ;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String nowAir = printResponse(conn);
-//        System.out.println("URL:" + url);
-//        System.out.println("URL:" + token);
+        String nowAir = Http.get(url).getContent();
         return nowAir;
     }
 
@@ -225,10 +194,7 @@ class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_RANKING_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit ;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String rankingAir = printResponse(conn);
-//        System.out.println("URL:" + url);
-//        System.out.println("URL:" + token);
+        String rankingAir = Http.get(url).getContent();
         return rankingAir;
     }
 
@@ -241,10 +207,7 @@ class XinzhiUtil {
             String days
     ) throws Exception {
         String url =  TIANQI_DAILY_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&days=" + days;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String dailyAir = printResponse(conn);
-//        System.out.println("URL:" + url);
-//        System.out.println("URL:" + token);
+        String dailyAir = Http.get(url).getContent();
         return dailyAir;
     }
 
@@ -257,10 +220,7 @@ class XinzhiUtil {
             String days
     ) throws Exception {
         String url =  TIANQI_HOURLY_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&days=" + days;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String hourlyAir = printResponse(conn);
-//        System.out.println("URL:" + url);
-//        System.out.println("URL:" + token);
+        String hourlyAir = Http.get(url).getContent();
         return hourlyAir;
     }
 
@@ -271,10 +231,7 @@ class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_SUGGESTION_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location ;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String suggestionLife = printResponse(conn);
-//        System.out.println("URL:" + url);
-//        System.out.println("URL:" + token);
+        String suggestionLife = Http.get(url).getContent();
         return suggestionLife;
     }
 
@@ -287,10 +244,7 @@ class XinzhiUtil {
             String days
     ) throws Exception {
         String url =  TIANQI_SUN_GEO_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&start=" + start + "&days=" + days;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String sunGeo = printResponse(conn);
-//        System.out.println("URL:" + url);
-//        System.out.println("URL:" + token);
+        String sunGeo = Http.get(url).getContent();
         return sunGeo;
     }
 
@@ -303,10 +257,7 @@ class XinzhiUtil {
             String days
     ) throws Exception {
         String url =  TIANQI_MOON_GEO_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&start=" + start + "&days=" + days;
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        String moonGeo = printResponse(conn);
-//        System.out.println("URL:" + url);
-//        System.out.println("URL:" + token);
+        String moonGeo = Http.get(url).getContent();
         return moonGeo;
     }
 

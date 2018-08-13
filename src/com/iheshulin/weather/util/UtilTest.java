@@ -37,13 +37,13 @@ public class UtilTest {
 //
 //            System.out.println("ANS:" + new JSONObject(gridnow).toString(4));
             //gridminutely
-//            String Minutely = XinzhiUtil.generateGetGridMinutelyWeather(
-//                    "39.93:116.40",
-//                    "zh-Hans",
-//                    "c");
-//
-//
-//            System.out.println("ANS:" + new JSONObject(Minutely).toString(4));
+            String Minutely = XinzhiUtil.generateGetGridMinutelyWeather(
+                    "39.93:116.40",
+                    "zh-Hans",
+                    "c");
+
+
+            System.out.println("ANS:" + new JSONObject(Minutely).toString(4));
             //hourly
 //            String hourly = XinzhiUtil.generateGetGridHourlyWeather(
 //                    "39.93:116.40",
