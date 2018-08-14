@@ -3,20 +3,19 @@ package com.iheshulin.weather.util;
 /**
  * Created by HeShulin on 2018/8/11.
  */
-import org.json.JSONObject;
-import org.nutz.dao.util.cri.Static;
+
 import org.nutz.http.Http;
-import org.nutz.http.Response;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URLEncoder;
 import java.security.SignatureException;
 import java.util.Date;
-import java.net.URLEncoder;
 
 public class XinzhiUtil {
 
@@ -94,11 +93,6 @@ public class XinzhiUtil {
         }
         return result;
     }
-
-
-
-
-
 
     //得到现在的实况天气
     public static String generateGetNowWeather(
