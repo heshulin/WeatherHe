@@ -12,6 +12,31 @@ import java.util.regex.Pattern;
  */
 public class PoemUtil {
 
+
+    public static String convertUTF8ToString(String s) {
+        if (s == null || s.equals("")) {
+            return null;
+        }
+        try {
+            s = s.toUpperCase();
+            int total = s.length() / 2;
+            //标识字节长度
+            int pos = 0;
+            byte[] buffer = new byte[total];
+            for (int i = 0; i < total; i++) {
+                int start = i * 2;
+                //将字符串参数解析为第二个参数指定的基数中的有符号整数。
+                buffer[i] = (byte) Integer.parseInt(s.substring(start, start + 2), 16);
+                pos++;
+            }
+            //通过使用指定的字符集解码指定的字节子阵列来构造一个新的字符串。
+            //新字符串的长度是字符集的函数，因此可能不等于子数组的长度。
+            return new String(buffer, 0, pos, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
     public static String unicodeToUtf8(String theString) {
         char aChar;
         int len = theString.length();
@@ -176,7 +201,40 @@ public class PoemUtil {
         System.out.println("url:" + url);
         String tempstr = Http.get(url).getContent();
 //        return delHTMLTag(tempstr.substring(16160).substring(0, 3500));
-        return tempstr.substring(16160).substring(0, 3500);
+
+//        String regex = "<p.*）</p>";
+//        tempstr = new String(tempstr.getBytes(),"utf-8");
+        System.out.println("1"+tempstr);
+        tempstr = tempstr.substring(16160).substring(0, 3500);
+        System.out.println("2"+tempstr);
+        String regex = "<p class=\"z16\\s*hl32\\s*zq5\">.*?</p>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(tempstr);
+//        System.out.println("?");
+//        while (matcher.find()) {
+//
+//            System.out.println("==================");
+//            System.out.println(matcher.group());
+//            System.out.println("==================");
+//        }
+//        System.out.println("!");
+
+        tempstr = matcher.replaceAll("");
+        System.out.println("3"+tempstr);
+        tempstr = delHTMLTag(tempstr.replace("&nbsp;","").replace("查询结果",""));
+        String regex2 = "（.*?）";
+        Pattern pattern2 = Pattern.compile(regex2);
+        Matcher matcher2 = pattern.matcher(tempstr);
+        tempstr = matcher2.replaceAll("").replace("①","").replace("②","").replace("③","").replace("④","").replace("⑤","").replace("⑥","").replace("⑦","").replace("⑧","").replace("⑨","");
+        System.out.println("4"+tempstr);
+        String[] poemlist = tempstr.split("[？|\\。]");
+
+        int poemnum = (int) (0 + Math.random() * (poemlist.length-2 - 1 + 1));
+
+
+        System.out.println(poemlist[poemnum]);
+        return poemlist[poemnum];
+//        return delHTMLTag(sb1);
     }
 
 }
