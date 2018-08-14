@@ -8,6 +8,8 @@ import org.nutz.mvc.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by HeShulin on 2018/8/13.
@@ -61,6 +63,33 @@ public class WeatherService {
         }
         return re;
     }
+
+    //关注的多个城市的天气实况
+    @Ok("json")
+    @Fail("http:500")
+    @At("/getlistnowweather")
+    @GET
+    public Object getListNowWeather(@Param("locationlist")String locationlist,HttpServletRequest request){
+        List<String> listnow;
+        List<Object> ansstr2 = new ArrayList<Object>();
+        NutMap re = new NutMap();
+        try {
+            listnow = java.util.Arrays.asList(locationlist.split(","));
+            for(int i = 0 ;i<listnow.size();i++){
+                ansstr2.add(Json.fromJson(XinzhiUtil.generateGetNowWeather(listnow.get(i), "zh-Hans", "c")));
+            }
+            re.put("info",ansstr2);
+            re.put("state",1);
+            re.put("msg","Gain success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            re.put("info","");
+            re.put("state",0);
+            re.put("msg","Acquisition failed");
+        }
+        return re;
+    }
+
 
     //分钟级降水预报(error)
     @Ok("json")

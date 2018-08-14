@@ -38,7 +38,7 @@ public class UtilTest {
 //            System.out.println("ANS:" + new JSONObject(gridnow).toString(4));
             //gridminutely
             String Minutely = XinzhiUtil.generateGetGridMinutelyWeather(
-                    "39.93:116.40",
+                    "北京",
                     "zh-Hans",
                     "c");
 

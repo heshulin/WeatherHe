@@ -96,18 +96,7 @@ public class XinzhiUtil {
     }
 
 
-    //得到n天的天气预报
-    public static String generateGetDiaryWeather(
-            String location,
-            String language,
-            String unit,
-            String start,
-            String days
-    ) throws Exception {
-        String url =  TIANQI_DAILY_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + location + "&language=" + language + "&unit=" + unit + "&start=" + start + "&days=" + days;
-        String daily = Http.get(url).getContent();
-        return daily;
-    }
+
 
 
 
@@ -122,6 +111,18 @@ public class XinzhiUtil {
         return now;
     }
 
+    //得到n天的天气预报
+    public static String generateGetDiaryWeather(
+            String location,
+            String language,
+            String unit,
+            String start,
+            String days
+    ) throws Exception {
+        String url =  TIANQI_DAILY_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + location + "&language=" + language + "&unit=" + unit + "&start=" + start + "&days=" + days;
+        String daily = Http.get(url).getContent();
+        return daily;
+    }
 
     //得到现在的格点实况天气
     public static String generateGetGridNowWeather(
