@@ -35,6 +35,8 @@ public class XinzhiUtil {
     private static String TIANQI_SUGGESTION_LIFE_URL = "https://api.seniverse.com/v3/life/suggestion.json";
     private static String TIANQI_SUN_GEO_URL = "https://api.seniverse.com/v3/geo/sun.json";
     private static String TIANQI_MOON_GEO_URL = "https://api.seniverse.com/v3/geo/moon.json";
+    private static String TIANQI_CALENDAR_LIFE_URL = "https://api.seniverse.com/v3/life/chinese_calendar.json";
+    private static String TIANQI_DRIVING_LIFE_URL = "https://api.seniverse.com/v3/life/driving_restriction.json";
 
 
     private static String TIANQI_API_SECRET_KEY = "afmlz62jdx69kmph";
@@ -252,6 +254,31 @@ public class XinzhiUtil {
             String days
     ) throws Exception {
         String url =  TIANQI_MOON_GEO_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&start=" + start + "&days=" + days;
+        String moonGeo = Http.get(url).getContent();
+        return moonGeo;
+    }
+
+
+    //农历、节气、生肖
+    public static String generateGetCalendarLife(
+            String location,
+            String language,
+            String unit,
+            String start,
+            String days
+    ) throws Exception {
+        String url =  TIANQI_CALENDAR_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&start=" + start + "&days=" + days;
+        String moonGeo = Http.get(url).getContent();
+        return moonGeo;
+    }
+
+    //机动车尾号限行
+    public static String generateGetDrivingLife(
+            String location,
+            String language,
+            String unit
+    ) throws Exception {
+        String url =  TIANQI_DRIVING_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location;
         String moonGeo = Http.get(url).getContent();
         return moonGeo;
     }
