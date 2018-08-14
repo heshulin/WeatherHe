@@ -1,9 +1,6 @@
 package com.iheshulin.weather.util;
 
 
-import org.json.JSONObject;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 /**
  * Created by HeShulin on 2018/8/11.
  */
@@ -30,8 +27,8 @@ public class UtilTest {
 //            String poemb = PoemUtil.PlanB("晴天");
 //            System.out.println("PlanBPoem:"+poemb);
             //PLANC 随便
-            String poemc = PoemUtil.PlanC("晴天");
-            System.out.println("PlanCPoem:"+poemc);
+//            String poemc = PoemUtil.PlanC("晴天");
+//            System.out.println("PlanCPoem:"+poemc);
 
 
         } catch (Exception e) {

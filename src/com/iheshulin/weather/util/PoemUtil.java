@@ -198,26 +198,15 @@ public class PoemUtil {
     public static String PlanC(String word) throws UnsupportedEncodingException {
         int pagenum = (int) (1 + Math.random() * (10 - 1 + 1));
         String url = "http://www.esk365.com/sccx/scso.php?wd="+word+"&st=0&nd=&tc=1&yb=&page="+pagenum;
-        System.out.println("url:" + url);
-        String tempstr = Http.get(url).getContent();
-//        return delHTMLTag(tempstr.substring(16160).substring(0, 3500));
 
-//        String regex = "<p.*）</p>";
-//        tempstr = new String(tempstr.getBytes(),"utf-8");
+        String tempstr = Http.get(url).getContent("utf-8");
         System.out.println("1"+tempstr);
         tempstr = tempstr.substring(16160).substring(0, 3500);
         System.out.println("2"+tempstr);
         String regex = "<p class=\"z16\\s*hl32\\s*zq5\">.*?</p>";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(tempstr);
-//        System.out.println("?");
-//        while (matcher.find()) {
-//
-//            System.out.println("==================");
-//            System.out.println(matcher.group());
-//            System.out.println("==================");
-//        }
-//        System.out.println("!");
+
 
         tempstr = matcher.replaceAll("");
         System.out.println("3"+tempstr);
@@ -234,7 +223,6 @@ public class PoemUtil {
 
         System.out.println(poemlist[poemnum]);
         return poemlist[poemnum];
-//        return delHTMLTag(sb1);
     }
 
 }
