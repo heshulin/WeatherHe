@@ -1,5 +1,6 @@
 package com.iheshulin.weather.service;
 
+import com.iheshulin.weather.util.DateConvertorUtil;
 import com.iheshulin.weather.util.PoemUtil;
 import com.iheshulin.weather.util.TTSUtil;
 import com.iheshulin.weather.util.XinzhiUtil;
@@ -67,22 +68,44 @@ public class OtherService {
     @GET
     public Object getBriefSuggestionLife(@Param("location")String location, HttpServletRequest request){
         String suggestionLifeStr = null;
-        String calendarlife = null;
         NutMap re = new NutMap();
         try {
 
             suggestionLifeStr = XinzhiUtil.generateGetSuggestionLife(location,"zh-Hans", "c");
-
             //生活指数json处理
             JSONObject suggestionLifeJson = new JSONObject(suggestionLifeStr);
             JSONArray suggestionLifeJsonArray = suggestionLifeJson.getJSONArray("results");
             JSONObject suggestionLifeJsonList0 = suggestionLifeJsonArray.getJSONObject(0);
-            JSONObject suggestion = suggestionLifeJsonList0.getJSONObject("suggestion");
-            JSONObject suggestioninfo = suggestion.getJSONObject("suggestion");
+//            JSONObject suggestion = suggestionLifeJsonList0.getJSONObject("suggestion");
+            JSONObject suggestioninfo = suggestionLifeJsonList0.getJSONObject("suggestion");
+            //穿衣
+            String dressing = suggestioninfo.getJSONObject("dressing").getString("brief");
+            //紫外线
+            String uv = suggestioninfo.getJSONObject("uv").getString("brief");
+            //运动
+            String sport = suggestioninfo.getJSONObject("sport").getString("brief");
+            //空气质量
+            String air_pollution = suggestioninfo.getJSONObject("air_pollution").getString("brief");
+            //路况
+            String traffic = suggestioninfo.getJSONObject("traffic").getString("brief");
+            //外出
+            String goout = suggestioninfo.getJSONObject("dating").getString("brief");
+            //美妆
+            String makeup = suggestioninfo.getJSONObject("makeup").getString("brief");
+            System.out.println();
 
-            //
+            //构造返回JSON
             JSONObject suggestionLife = new JSONObject();
-            re.put("info",Json.fromJson(suggestionLife.toString()));
+            suggestionLife.append("date", DateConvertorUtil.getMonthDay());
+            suggestionLife.append("dressing", dressing);
+            suggestionLife.append("uv", uv);
+            suggestionLife.append("sport", sport);
+            suggestionLife.append("air_pollution", air_pollution);
+            suggestionLife.append("traffic", traffic);
+            suggestionLife.append("goout", goout);
+            suggestionLife.append("makeup", makeup);
+
+            re.put("info",Json.fromJson(suggestionLife.toString().replace("[","").replace("]","")));
             re.put("state",1);
             re.put("msg","Gain success");
         } catch (Exception e) {

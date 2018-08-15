@@ -7,14 +7,7 @@ import java.util.Date;
  * Created by HeShulin on 2018/8/15.
  */
 public class DateConvertorUtil {
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
-        System.out.println(getMonthDay());
-    }
 
     public static String getMonthDay()
     {
