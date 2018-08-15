@@ -3,6 +3,7 @@ package com.iheshulin.weather.service;
 import com.iheshulin.weather.util.PoemUtil;
 import com.iheshulin.weather.util.TTSUtil;
 import com.iheshulin.weather.util.XinzhiUtil;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
@@ -66,11 +67,18 @@ public class OtherService {
     @GET
     public Object getBriefSuggestionLife(@Param("location")String location, HttpServletRequest request){
         String suggestionLifeStr = null;
+        String calendarlife = null;
         NutMap re = new NutMap();
         try {
-            suggestionLifeStr = XinzhiUtil.generateGetSuggestionLife(location,"zh-Hans", "c");
-            JSONObject suggestionLifeJson = new JSONObject(suggestionLifeStr);
 
+            suggestionLifeStr = XinzhiUtil.generateGetSuggestionLife(location,"zh-Hans", "c");
+
+            //生活指数json处理
+            JSONObject suggestionLifeJson = new JSONObject(suggestionLifeStr);
+            JSONArray suggestionLifeJsonArray = suggestionLifeJson.getJSONArray("results");
+            JSONObject suggestionLifeJsonList0 = suggestionLifeJsonArray.getJSONObject(0);
+            JSONObject suggestion = suggestionLifeJsonList0.getJSONObject("suggestion");
+            JSONObject suggestioninfo = suggestion.getJSONObject("suggestion");
 
             //
             JSONObject suggestionLife = new JSONObject();
