@@ -12,13 +12,13 @@ public class UtilTest {
         try {
 
 //            daily
-            String daily = XinzhiUtil.generateGetNowAir(
-                    "上海",
-                    "zh-Hans",
-                    "c"
-                    );
-
-            System.out.println("ANS:" + new JSONObject(daily).toString(4));
+//            String daily = XinzhiUtil.generateGetNowAir(
+//                    "上海",
+//                    "zh-Hans",
+//                    "c"
+//                    );
+//
+//            System.out.println("ANS:" + new JSONObject(daily).toString(4));
             //poem
 
 //            //PLANA只能一个字

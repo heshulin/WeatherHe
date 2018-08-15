@@ -181,9 +181,7 @@ public class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_NOW_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit ;
-        System.out.println(url);
         String nowAir = Http.get(url).getContent("utf-8");
-        System.out.println(nowAir);
         return nowAir;
     }
 
