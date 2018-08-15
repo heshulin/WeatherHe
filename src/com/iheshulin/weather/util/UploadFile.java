@@ -26,7 +26,7 @@ public class UploadFile {
     private String locaFilePath;
     public UploadFile() throws Exception{
         //构造一个带指定Zone对象的配置类
-        this.cfg = new com.qiniu.storage.Configuration(Zone.zone1());
+        this.cfg = new com.qiniu.storage.Configuration(Zone.zone0());
         this.auth = Auth.create(this.accessKey, this.secretKey);
         //...生成上传凭证，然后准备上传
         this.uploadManager = new UploadManager(cfg);
@@ -49,7 +49,7 @@ public class UploadFile {
             if(bucket.equals("yourname-headphotos")) {
                 return "http://oqjsvz8l8.bkt.clouddn.com/" + putRet.key;
             }else{
-                return "http://oqjsq4e3e.bkt.clouddn.com/" + putRet.key;
+                return "http://pdhctd9ee.bkt.clouddn.com/" + putRet.key;
             }
         }catch (QiniuException ex){
             Response r = ex.response;
@@ -78,6 +78,10 @@ public class UploadFile {
      */
     public String uploadDiaryPhoto(String localFilePath) throws Exception{
         String bucket = "yourname-dairyphotos";
+        return uploadPhoto(bucket, localFilePath);
+    }
+    public String uploadSpeech(String localFilePath) throws Exception{
+        String bucket = "weatherspeech";
         return uploadPhoto(bucket, localFilePath);
     }
 

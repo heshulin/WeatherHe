@@ -11,15 +11,14 @@ public class UtilTest {
     public static void main(String args[]){
         try {
 
-            //daily
-//            String daily = XinzhiUtil.generateGetDiaryWeather(
-//                    "shanghai",
-//                    "zh-Hans",
-//                    "c",
-//                    "1",
-//                    "1");
-//
-//            System.out.println("ANS:" + new JSONObject(daily).toString(4));
+//            daily
+            String daily = XinzhiUtil.generateGetNowAir(
+                    "上海",
+                    "zh-Hans",
+                    "c"
+                    );
+
+            System.out.println("ANS:" + new JSONObject(daily).toString(4));
             //poem
 
 //            //PLANA只能一个字
@@ -32,13 +31,8 @@ public class UtilTest {
 //            String poemc = PoemUtil.PlanC("晴天");
 //            System.out.println("PlanCPoem:"+poemc);
             //daily
-            String daily = XinzhiUtil.generateGetDrivingLife(
-                    "beijing",
-                    "zh-Hans",
-                    "c"
-                    );
 
-            System.out.println("ANS:" + new JSONObject(daily).toString(4));
+            System.out.println("ANS:" + TTSUtil.getSpeechUrl("北京"));
 
         } catch (Exception e) {
             System.out.println("Exception:" + e);

@@ -1,7 +1,9 @@
 package com.iheshulin.weather.service;
 
 import com.iheshulin.weather.util.PoemUtil;
+import com.iheshulin.weather.util.TTSUtil;
 import com.iheshulin.weather.util.XinzhiUtil;
+import org.json.JSONObject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.lang.util.NutMap;
@@ -14,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @IocBean
 public class OtherService {
-    //空气质量实况
+    //得到古诗
     @Ok("json:")
     @Fail("http:500")
     @At("/getpoem")
@@ -47,6 +49,32 @@ public class OtherService {
         try {
             suggestionLife = XinzhiUtil.generateGetSuggestionLife(location,"zh-Hans", "c");
             re.put("info",Json.fromJson(suggestionLife));
+            re.put("state",1);
+            re.put("msg","Gain success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            re.put("info","");
+            re.put("state",0);
+            re.put("msg","Acquisition failed");
+        }
+        return re;
+    }
+    //简要生活指数
+    @Ok("json")
+    @Fail("http:500")
+    @At("/getbriefsuggestionlife")
+    @GET
+    public Object getBriefSuggestionLife(@Param("location")String location, HttpServletRequest request){
+        String suggestionLifeStr = null;
+        NutMap re = new NutMap();
+        try {
+            suggestionLifeStr = XinzhiUtil.generateGetSuggestionLife(location,"zh-Hans", "c");
+            JSONObject suggestionLifeJson = new JSONObject(suggestionLifeStr);
+
+
+            //
+            JSONObject suggestionLife = new JSONObject();
+            re.put("info",Json.fromJson(suggestionLife.toString()));
             re.put("state",1);
             re.put("msg","Gain success");
         } catch (Exception e) {
@@ -139,6 +167,35 @@ public class OtherService {
             re.put("info",Json.fromJson(drivinglife));
             re.put("state",1);
             re.put("msg","Gain success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            re.put("info","");
+            re.put("state",0);
+            re.put("msg","Acquisition failed");
+        }
+        return re;
+    }
+
+    //语音播报
+    @Ok("json")
+    @Fail("http:500")
+    @At("/getspeech")
+    @GET
+    public Object getSpeech(@Param("location")String location, HttpServletRequest request){
+        String speech = null;
+        NutMap re = new NutMap();
+        try {
+            speech = TTSUtil.getSpeechUrl(location);
+            if(!"".equals(speech)){
+                re.put("info",speech);
+                re.put("state",1);
+                re.put("msg","Gain success");
+            }else
+            {
+                re.put("info",speech);
+                re.put("state",0);
+                re.put("msg","net error");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             re.put("info","");

@@ -24,6 +24,7 @@ public class AirService {
         String now = null;
         NutMap re = new NutMap();
         try {
+            System.out.println(location);
             now = XinzhiUtil.generateGetNowAir(location, "zh-Hans", "c");
             re.put("info", Json.fromJson(now));
             re.put("state",1);

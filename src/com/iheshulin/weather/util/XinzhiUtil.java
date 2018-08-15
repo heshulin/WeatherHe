@@ -102,7 +102,7 @@ public class XinzhiUtil {
             String language,
             String unit
     ) throws Exception {
-        String url =  TIANQI_NOW_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + location + "&language=" + language + "&unit=" + unit;
+        String url =  TIANQI_NOW_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit;
         String now = Http.get(url).getContent();
         return now;
     }
@@ -115,7 +115,7 @@ public class XinzhiUtil {
             String start,
             String days
     ) throws Exception {
-        String url =  TIANQI_DAILY_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + location + "&language=" + language + "&unit=" + unit + "&start=" + start + "&days=" + days;
+        String url =  TIANQI_DAILY_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit + "&start=" + start + "&days=" + days;
         String daily = Http.get(url).getContent();
         return daily;
     }
@@ -126,7 +126,7 @@ public class XinzhiUtil {
             String language,
             String unit
     ) throws Exception {
-        String url =  TIANQI_GRIDNOW_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit;
+        String url =  TIANQI_GRIDNOW_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit;
         String gridnow = Http.get(url).getContent();
         return gridnow;
     }
@@ -139,7 +139,7 @@ public class XinzhiUtil {
             String language,
             String unit
     ) throws Exception {
-        String url =  TIANQI_MINUTELY_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit;
+        String url =  TIANQI_MINUTELY_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit;
         String gridMinutely = Http.get(url).getContent();
         return gridMinutely;
     }
@@ -152,7 +152,7 @@ public class XinzhiUtil {
             String start,
             String hours
     ) throws Exception {
-        String url =  TIANQI_HOURLY_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit + "&start=" + start + "&hours=" + hours;
+        String url =  TIANQI_HOURLY_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit + "&start=" + start + "&hours=" + hours;
         String hourly = Http.get(url).getContent();
         return hourly;
     }
@@ -168,7 +168,7 @@ public class XinzhiUtil {
             url =  TIANQI_ALARM_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&language=" + language + "&unit=" + unit ;
         }else
         {
-            url =  TIANQI_ALARM_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit ;
+            url =  TIANQI_ALARM_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit ;
         }
         String alarm = Http.get(url).getContent();
         return alarm;
@@ -180,8 +180,10 @@ public class XinzhiUtil {
             String language,
             String unit
     ) throws Exception {
-        String url =  TIANQI_NOW_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + location + "&language=" + language + "&unit=" + unit ;
-        String nowAir = Http.get(url).getContent();
+        String url =  TIANQI_NOW_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit ;
+        System.out.println(url);
+        String nowAir = Http.get(url).getContent("utf-8");
+        System.out.println(nowAir);
         return nowAir;
     }
 
@@ -203,7 +205,7 @@ public class XinzhiUtil {
             String unit,
             String days
     ) throws Exception {
-        String url =  TIANQI_DAILY_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&days=" + days;
+        String url =  TIANQI_DAILY_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + URLEncoder.encode(location, "UTF-8") + "&days=" + days;
         String dailyAir = Http.get(url).getContent();
         return dailyAir;
     }
@@ -216,7 +218,7 @@ public class XinzhiUtil {
             String unit,
             String days
     ) throws Exception {
-        String url =  TIANQI_HOURLY_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&days=" + days;
+        String url =  TIANQI_HOURLY_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + URLEncoder.encode(location, "UTF-8") + "&days=" + days;
         String hourlyAir = Http.get(url).getContent();
         return hourlyAir;
     }
@@ -227,7 +229,7 @@ public class XinzhiUtil {
             String language,
             String unit
     ) throws Exception {
-        String url =  TIANQI_SUGGESTION_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location ;
+        String url =  TIANQI_SUGGESTION_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + URLEncoder.encode(location, "UTF-8") ;
         String suggestionLife = Http.get(url).getContent();
         return suggestionLife;
     }
@@ -240,7 +242,7 @@ public class XinzhiUtil {
             String start,
             String days
     ) throws Exception {
-        String url =  TIANQI_SUN_GEO_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&start=" + start + "&days=" + days;
+        String url =  TIANQI_SUN_GEO_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + URLEncoder.encode(location, "UTF-8") + "&start=" + start + "&days=" + days;
         String sunGeo = Http.get(url).getContent();
         return sunGeo;
     }
@@ -253,7 +255,7 @@ public class XinzhiUtil {
             String start,
             String days
     ) throws Exception {
-        String url =  TIANQI_MOON_GEO_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&start=" + start + "&days=" + days;
+        String url =  TIANQI_MOON_GEO_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + URLEncoder.encode(location, "UTF-8") + "&start=" + start + "&days=" + days;
         String moonGeo = Http.get(url).getContent();
         return moonGeo;
     }
@@ -267,7 +269,7 @@ public class XinzhiUtil {
             String start,
             String days
     ) throws Exception {
-        String url =  TIANQI_CALENDAR_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location + "&start=" + start + "&days=" + days;
+        String url =  TIANQI_CALENDAR_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + URLEncoder.encode(location, "UTF-8") + "&start=" + start + "&days=" + days;
         String moonGeo = Http.get(url).getContent();
         return moonGeo;
     }
@@ -278,7 +280,7 @@ public class XinzhiUtil {
             String language,
             String unit
     ) throws Exception {
-        String url =  TIANQI_DRIVING_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + location;
+        String url =  TIANQI_DRIVING_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + URLEncoder.encode(location, "UTF-8");
         String moonGeo = Http.get(url).getContent();
         return moonGeo;
     }
