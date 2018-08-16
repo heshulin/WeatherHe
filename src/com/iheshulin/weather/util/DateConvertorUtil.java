@@ -1,6 +1,8 @@
 package com.iheshulin.weather.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -8,7 +10,46 @@ import java.util.Date;
  */
 public class DateConvertorUtil {
 
+    public static String getTodayWeek() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date(System.currentTimeMillis()));
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        switch (dayOfWeek) {
+            case 1:
+                return "星期日";
+            case 2:
+                return "星期一";
+            case 3:
+                return "星期二";
+            case 4:
+                return "星期三";
+            case 5:
+                return "星期四";
+            case 6:
+                return "星期五";
+            case 7:
+                return "星期六";
 
+
+        }
+        return "";
+    }
+    public static String dateToWeek(String datetime) {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        String[] weekDays = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+        Calendar cal = Calendar.getInstance(); // 获得一个日历
+        Date datet = null;
+        try {
+            datet = f.parse(datetime);
+            cal.setTime(datet);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1; // 指示一个星期中的某天。
+        if (w < 0)
+            w = 0;
+        return weekDays[w];
+    }
     public static String getMonthDay()
     {
         String monthDay;

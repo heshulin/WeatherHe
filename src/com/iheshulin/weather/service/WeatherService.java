@@ -1,5 +1,6 @@
 package com.iheshulin.weather.service;
 
+import com.iheshulin.weather.util.DateConvertorUtil;
 import com.iheshulin.weather.util.XinzhiUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,6 +51,7 @@ public class WeatherService {
             //空气质量
             String quality = todayAirState.getString("quality");
             todayState.append("quality",quality);
+            todayState.append("week", DateConvertorUtil.getTodayWeek());
             JSONObject tempJson = new JSONObject();
             tempJson.append("location",todaylocation);
             tempJson.append("now",todayState);
@@ -79,7 +81,26 @@ public class WeatherService {
         NutMap re = new NutMap();
         try {
             daily = XinzhiUtil.generateGetDiaryWeather(location, "zh-Hans", "c", "0", "7");
-            re.put("info",Json.fromJson(daily));
+            //解析dailyjson
+            JSONObject weather = new JSONObject(daily);
+            JSONArray weatherAnsArray =  weather.getJSONArray("results");
+            JSONObject weatherAns = weatherAnsArray.getJSONObject(0);
+            JSONArray dailyState = weatherAns.getJSONArray("daily");
+            JSONObject dailylocation = weatherAns.getJSONObject("location");
+            String last_update = weatherAns.getString("last_update");
+            JSONArray newdaily = new JSONArray();
+            for(int i=0;i<7;i++){
+                JSONObject tempobject = dailyState.getJSONObject(i);
+                tempobject.append("week",DateConvertorUtil.dateToWeek(tempobject.getString("date")));
+                newdaily.put(new JSONObject(tempobject.toString().replace("[","").replace("]","")));
+            }
+            JSONObject tempJson = new JSONObject();
+            tempJson.append("location",dailylocation);
+            tempJson.put("daily",newdaily);
+            tempJson.append("last_update",last_update);
+            JSONObject results = new JSONObject();
+            results.append("results",Json.fromJson(tempJson.toString()));
+            re.put("info",Json.fromJson(results.toString()));
             re.put("state",1);
             re.put("msg","Gain success");
         } catch (Exception e) {
