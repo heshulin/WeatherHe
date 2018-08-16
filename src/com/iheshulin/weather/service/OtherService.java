@@ -1,9 +1,7 @@
 package com.iheshulin.weather.service;
 
-import com.iheshulin.weather.util.DateConvertorUtil;
-import com.iheshulin.weather.util.PoemUtil;
-import com.iheshulin.weather.util.TTSUtil;
-import com.iheshulin.weather.util.XinzhiUtil;
+import com.alibaba.fastjson.JSON;
+import com.iheshulin.weather.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -68,10 +66,19 @@ public class OtherService {
     @GET
     public Object getBriefSuggestionLife(@Param("location")String location, HttpServletRequest request){
         String suggestionLifeStr = null;
+        String calendarLifeStr = null;
         NutMap re = new NutMap();
         try {
 
             suggestionLifeStr = XinzhiUtil.generateGetSuggestionLife(location,"zh-Hans", "c");
+            calendarLifeStr = XinzhiUtil.generateGetCalendarLife(location,"zh-Hans", "c","0","1");
+            //农历日期获取
+            JSONObject calendarLifeJson = new JSONObject(calendarLifeStr);
+            JSONObject calendarLifeJsonResults = calendarLifeJson.getJSONObject("results");
+            JSONArray calendarLifeJsonList = calendarLifeJsonResults.getJSONArray("chinese_calendar");
+            JSONObject calendarLife = calendarLifeJsonList.getJSONObject(0);
+            //农历日期获取
+            String monthday =  calendarLife.getString("lunar_month_name")+calendarLife.getString("lunar_day_name");
             //生活指数json处理
             JSONObject suggestionLifeJson = new JSONObject(suggestionLifeStr);
             JSONArray suggestionLifeJsonArray = suggestionLifeJson.getJSONArray("results");
@@ -85,7 +92,7 @@ public class OtherService {
             //运动
             String sport = suggestioninfo.getJSONObject("sport").getString("brief");
             //空气质量
-            String air_pollution = suggestioninfo.getJSONObject("air_pollution").getString("brief");
+            String air_pollution = suggestioninfo.getJSONObject("mood").getString("brief");
             //路况
             String traffic = suggestioninfo.getJSONObject("traffic").getString("brief");
             //外出
@@ -96,7 +103,7 @@ public class OtherService {
 
             //构造返回JSON
             JSONObject suggestionLife = new JSONObject();
-            suggestionLife.append("date", DateConvertorUtil.getMonthDay());
+            suggestionLife.append("date", monthday);
             suggestionLife.append("dressing", dressing);
             suggestionLife.append("uv", uv);
             suggestionLife.append("sport", sport);
@@ -235,4 +242,26 @@ public class OtherService {
         }
         return re;
     }
+    //得到分享图片
+    @Ok("json")
+    @Fail("http:500")
+    @At("/getshareimage")
+    @GET
+    public Object getShareImage(@Param("location")String location, HttpServletRequest request){
+        String shareimage = null;
+        NutMap re = new NutMap();
+        try {
+            shareimage = ImageUtil.addWaterMark(location);
+            re.put("info",shareimage);
+            re.put("state",1);
+            re.put("msg","Gain success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            re.put("info","");
+            re.put("state",0);
+            re.put("msg","Acquisition failed");
+        }
+        return re;
+    }
+
 }

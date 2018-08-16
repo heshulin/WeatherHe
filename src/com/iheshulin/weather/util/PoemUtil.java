@@ -200,22 +200,20 @@ public class PoemUtil {
         String url = "http://www.esk365.com/sccx/scso.php?wd="+word+"&st=0&nd=&tc=1&yb=&page="+pagenum;
 
         String tempstr = Http.get(url).getContent("utf-8");
-        System.out.println("1"+tempstr);
+
         tempstr = tempstr.substring(16160).substring(0, 3500);
-        System.out.println("2"+tempstr);
+
         String regex = "<p class=\"z16\\s*hl32\\s*zq5\">.*?</p>";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(tempstr);
 
 
         tempstr = matcher.replaceAll("");
-        System.out.println("3"+tempstr);
         tempstr = delHTMLTag(tempstr.replace("&nbsp;","").replace("查询结果",""));
         String regex2 = "（.*?）";
         Pattern pattern2 = Pattern.compile(regex2);
         Matcher matcher2 = pattern.matcher(tempstr);
         tempstr = matcher2.replaceAll("").replace("①","").replace("②","").replace("③","").replace("④","").replace("⑤","").replace("⑥","").replace("⑦","").replace("⑧","").replace("⑨","");
-        System.out.println("4"+tempstr);
         String[] poemlist = tempstr.split("[？|\\。]");
 
         int poemnum = (int) (0 + Math.random() * (poemlist.length-2 - 1 + 1));

@@ -11,9 +11,9 @@ public class UtilTest {
     public static void main(String args[]){
         try {
 
-//            daily
+    //        daily
 //            String daily = XinzhiUtil.generateGetNowAir(
-//                    "上海",
+//                    "39.93:116.40",
 //                    "zh-Hans",
 //                    "c"
 //                    );
@@ -28,11 +28,11 @@ public class UtilTest {
 //            String poemb = PoemUtil.PlanB("晴天");
 //            System.out.println("PlanBPoem:"+poemb);
             //PLANC 随便
-//            String poemc = PoemUtil.PlanC("晴天");
-//            System.out.println("PlanCPoem:"+poemc);
-            //daily
+            String poemc = PoemUtil.PlanC("晴天");
+            System.out.println("PlanCPoem:"+poemc);
+//            daily
 
-            System.out.println("ANS:" + TTSUtil.getSpeechUrl("北京"));
+//            System.out.println("ANS:" + TTSUtil.getSpeechUrl("北京"));
 
         } catch (Exception e) {
             System.out.println("Exception:" + e);

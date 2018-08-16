@@ -1,6 +1,8 @@
 package com.iheshulin.weather.service;
 
 import com.iheshulin.weather.util.XinzhiUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.lang.util.NutMap;
@@ -26,10 +28,35 @@ public class WeatherService {
     @GET
     public Object getNowWeather(@Param("location")String location,HttpServletRequest request){
         String now = null;
+        String air = null;
         NutMap re = new NutMap();
         try {
             now = XinzhiUtil.generateGetNowWeather(location,"zh-Hans","c");
-            re.put("info", Json.fromJson(now));
+            air = XinzhiUtil.generateGetNowAir(location,"zh-Hans","c");
+
+            //解析airjson
+            JSONObject airjson = new JSONObject(air);
+            JSONArray airAnsArray =  airjson.getJSONArray("results");
+            JSONObject airAns =  airAnsArray.getJSONObject(0);
+            JSONObject todayAir = airAns.getJSONObject("air");
+            JSONObject todayAirState = todayAir.getJSONObject("city");
+            //解析weatherjson
+            JSONObject weather = new JSONObject(now);
+            JSONArray weatherAnsArray =  weather.getJSONArray("results");
+            JSONObject weatherAns = weatherAnsArray.getJSONObject(0);
+            JSONObject todayState = weatherAns.getJSONObject("now");
+            JSONObject todaylocation = weatherAns.getJSONObject("location");
+            String last_update = weatherAns.getString("last_update");
+            //空气质量
+            String quality = todayAirState.getString("quality");
+            todayState.append("quality",quality);
+            JSONObject tempJson = new JSONObject();
+            tempJson.append("location",todaylocation);
+            tempJson.append("now",todayState);
+            tempJson.append("last_update",last_update);
+            JSONObject results = new JSONObject();
+            results.append("results",Json.fromJson(tempJson.toString().replace("[","").replace("]","")));
+            re.put("info", Json.fromJson(results.toString()));
             re.put("state",1);
             re.put("msg","Gain success");
         } catch (Exception e) {

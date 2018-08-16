@@ -47,7 +47,7 @@ public class DateConvertorUtil {
     /**
      * create date:2010-5-22下午03:40:47
      * 描述：取出日期字符串中的月份字符串
-     * @param str日期字符串
+     * @param
      * @return
      */
     public static String getMonthStr(String str)

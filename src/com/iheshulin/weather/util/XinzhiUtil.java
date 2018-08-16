@@ -103,6 +103,7 @@ public class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_NOW_WEATHER_URL + "?" + params + "&sig=" + signature + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit;
+        //System.out.println("Weather:"+url);
         String now = Http.get(url).getContent();
         return now;
     }
@@ -166,8 +167,8 @@ public class XinzhiUtil {
         String url;
         if(location.equals("")) {
             url =  TIANQI_ALARM_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&language=" + language + "&unit=" + unit ;
-        }else
-        {
+        }
+        else {
             url =  TIANQI_ALARM_WEATHER_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit ;
         }
         String alarm = Http.get(url).getContent();
@@ -181,6 +182,7 @@ public class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_NOW_AIR_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY + "&location=" + URLEncoder.encode(location, "UTF-8") + "&language=" + language + "&unit=" + unit ;
+        //System.out.println("air:"+url);
         String nowAir = Http.get(url).getContent("utf-8");
         return nowAir;
     }
@@ -228,6 +230,7 @@ public class XinzhiUtil {
             String unit
     ) throws Exception {
         String url =  TIANQI_SUGGESTION_LIFE_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&language=" + language + "&unit=" + unit + "&location=" + URLEncoder.encode(location, "UTF-8") ;
+        //System.out.println(url);
         String suggestionLife = Http.get(url).getContent();
         return suggestionLife;
     }
