@@ -218,8 +218,6 @@ public class PoemUtil {
 
         int poemnum = (int) (0 + Math.random() * (poemlist.length-2 - 1 + 1));
 
-
-        System.out.println(poemlist[poemnum]);
         return poemlist[poemnum];
     }
 

@@ -116,4 +116,44 @@ public class TTSUtil {
     }
 
 
+    public static String getAISpeechUrl(String p) throws Exception {
+        String locationUrl = AItoSpeech(p ,"outputAI.mp3");
+        if(!"".equals(locationUrl)){
+            UploadFile uploadFile = new UploadFile();
+            String uploadUrl = uploadFile.uploadSpeech(locationUrl);
+            return uploadUrl;
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public static String AItoSpeech(String p,String locationUrl) throws Exception {
+        // 初始化一个AipSpeech
+        AipSpeech client = new AipSpeech(APP_ID, API_KEY, SECRET_KEY);
+        // synthesis(client);
+        // 可选：设置网络连接参数
+        client.setConnectionTimeoutInMillis(2000);
+        client.setSocketTimeoutInMillis(60000);
+
+        // 也可以直接通过jvm启动参数设置此环境变量
+        System.setProperty("aip.log4j.conf", "path/to/your/log4j.properties");
+
+
+        // 调用接口
+        TtsResponse res = client.synthesis(p, "zh", 1, null);
+        byte[] data = res.getData();
+        if (data != null) {
+            try {
+                Util.writeBytesToFileSystem(data ,locationUrl);
+                return locationUrl;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
+
+
 }

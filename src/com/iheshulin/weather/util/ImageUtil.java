@@ -13,12 +13,14 @@ import java.io.FileOutputStream;
  * Created by HeShulin on 2018/8/16.
  */
 public class ImageUtil {
-    public static String srcImgPath="e:\\y.png"; //源图片地址
+    public static String sunsrcImgPath="e:\\sun.png"; //源图片地址
+    public static String cloudsrcImgPath="e:\\cloud.png"; //源图片地址
+    public static String rainsrcImgPath="e:\\rain.png"; //源图片地址
+    public static String snowsrcImgPath="e:\\snow.png"; //源图片地址
     public static String tarImgPath="e:\\ans.png"; //待存储的地址
 
     public static String addWaterMark(String location) {
         try {
-
             //解析weatherjson
             String now = XinzhiUtil.generateGetNowWeather(location,"zh-Hans","c");
             JSONObject weather = new JSONObject(now);
@@ -27,14 +29,24 @@ public class ImageUtil {
             JSONObject todayState = weatherAns.getJSONObject("now");
             JSONObject todaylocation = weatherAns.getJSONObject("location");
 
-
-
-
-
-
+            int  weatherCode = Integer.parseInt(todayState.getString("code"));  //水印内容
+            File srcImgFile = null;//得到文件
+            System.out.println(weatherCode);
+            if(weatherCode==0||weatherCode==1||weatherCode==2||weatherCode==3||weatherCode==99){
+                srcImgFile = new File(sunsrcImgPath);
+            }
+            else if(weatherCode==4||weatherCode==5||weatherCode==6||weatherCode==7||weatherCode==8||weatherCode==9||weatherCode==26||weatherCode==27||weatherCode==28||weatherCode==29||weatherCode==30||weatherCode==31||weatherCode==32||weatherCode==33||weatherCode==34||weatherCode==35||weatherCode==36||weatherCode==37||weatherCode==38){
+                srcImgFile = new File(cloudsrcImgPath);
+            }
+            else if(weatherCode==10||weatherCode==11||weatherCode==12||weatherCode==13||weatherCode==14||weatherCode==15||weatherCode==16||weatherCode==17||weatherCode==18||weatherCode==19||weatherCode==20){
+                srcImgFile = new File(rainsrcImgPath);
+            }
+            else if(weatherCode==21||weatherCode==22||weatherCode==23||weatherCode==24||weatherCode==25){
+                srcImgFile = new File(snowsrcImgPath);
+            }
             int x,y;
             // 读取原图片信息
-            File srcImgFile = new File(srcImgPath);//得到文件
+
             Image srcImg = ImageIO.read(srcImgFile);//文件转化为图片
             int srcImgWidth = srcImg.getWidth(null);//获取图片的宽
             int srcImgHeight = srcImg.getHeight(null);//获取图片的高

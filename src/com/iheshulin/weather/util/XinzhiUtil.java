@@ -4,6 +4,8 @@ package com.iheshulin.weather.util;
  * Created by HeShulin on 2018/8/11.
  */
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.nutz.http.Http;
 
 import javax.crypto.Mac;
@@ -37,6 +39,7 @@ public class XinzhiUtil {
     private static String TIANQI_MOON_GEO_URL = "https://api.seniverse.com/v3/geo/moon.json";
     private static String TIANQI_CALENDAR_LIFE_URL = "https://api.seniverse.com/v3/life/chinese_calendar.json";
     private static String TIANQI_DRIVING_LIFE_URL = "https://api.seniverse.com/v3/life/driving_restriction.json";
+    private static String TIANQI_TALK_ROBOT_URL = "https://api.seniverse.com/v3/robot/talk.json";
 
 
     private static String TIANQI_API_SECRET_KEY = "afmlz62jdx69kmph";
@@ -286,5 +289,22 @@ public class XinzhiUtil {
         return moonGeo;
     }
 
-
+    //自然语言处理
+    public static String generateGetTalkRobot(
+            String q
+    ) throws Exception {
+        String url =  TIANQI_TALK_ROBOT_URL + "?"  + "&key=" + TIANQI_API_SECRET_KEY  + "&q=" + URLEncoder.encode(q, "UTF-8");
+        System.out.println(url);
+        String talkRobot = Http.get(url).getContent();
+        System.out.println(talkRobot);
+        //解析robot talk
+        JSONObject talk = new JSONObject(talkRobot);
+        JSONArray talkAnsArray =  talk.getJSONArray("results");
+        JSONObject talkAns = talkAnsArray.getJSONObject(0);
+        JSONObject talkState = talkAns.getJSONObject("reply");
+        String talkplain = talkState.getString("plain");
+        System.out.println(talkplain);
+        String speechURL = TTSUtil.getAISpeechUrl(talkplain);
+        return  speechURL;
+    }
 }

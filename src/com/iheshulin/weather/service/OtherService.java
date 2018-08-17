@@ -10,6 +10,7 @@ import org.nutz.lang.util.NutMap;
 import org.nutz.mvc.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by HeShulin on 2018/8/14.
@@ -99,7 +100,6 @@ public class OtherService {
             String goout = suggestioninfo.getJSONObject("dating").getString("brief");
             //美妆
             String makeup = suggestioninfo.getJSONObject("makeup").getString("brief");
-            System.out.println();
 
             //构造返回JSON
             JSONObject suggestionLife = new JSONObject();
@@ -242,6 +242,7 @@ public class OtherService {
         }
         return re;
     }
+
     //得到分享图片
     @Ok("json")
     @Fail("http:500")
@@ -253,6 +254,28 @@ public class OtherService {
         try {
             shareimage = ImageUtil.addWaterMark(location);
             re.put("info",shareimage);
+            re.put("state",1);
+            re.put("msg","Gain success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            re.put("info","");
+            re.put("state",0);
+            re.put("msg","Acquisition failed");
+        }
+        return re;
+    }
+
+    //自然语言处理
+    @Ok("json")
+    @Fail("http:500")
+    @At("/gettalkrobot")
+    @GET
+    public Object getTalkRobot(@Param("q")String q, HttpServletRequest request){
+        String talkRobot = null;
+        NutMap re = new NutMap();
+        try {
+            talkRobot = XinzhiUtil.generateGetTalkRobot(q);
+            re.put("info",talkRobot);
             re.put("state",1);
             re.put("msg","Gain success");
         } catch (Exception e) {
